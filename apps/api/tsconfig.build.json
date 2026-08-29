@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Con solo `src` en el programa, la raíz común es src/ y la salida queda en
+    // dist/main.js. Si se incluyera prisma/, tsc inferiría apps/api/ como raíz y
+    // emitiría en dist/src/main.js, dejando `pnpm start` apuntando a un archivo
+    // que no existe.
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "prisma", "**/*.spec.ts"]
+}

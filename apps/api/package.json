@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nest start --watch",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "prebuild": "pnpm clean",
     "build": "nest build",
     "start": "node dist/main",
     "db:generate": "prisma generate",

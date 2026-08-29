@@ -1,0 +1,109 @@
+// RENOVA — esquema de persistencia del piloto de biogás.
+// Este archivo es un detalle de infraestructura: el dominio no lo conoce.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id           String   @id
+  email        String   @unique
+  nombre       String
+  passwordHash String
+  creadoEn     DateTime @default(now())
+
+  @@map("usuarios")
+}
+
+model Biodigestor {
+  id          String   @id
+  nombre      String
+  capacidadM3 Float
+  ubicacion   String?
+  creadoEn    DateTime @default(now())
+  sensores    Sensor[]
+
+  @@map("biodigestores")
+}
+
+model Sensor {
+  id            String      @id
+  biodigestorId String
+  biodigestor   Biodigestor @relation(fields: [biodigestorId], references: [id], onDelete: Cascade)
+  /// TipoVariable de @renova/shared
+  variable      String
+  /// Zona de @renova/shared: 'biodigestor' | 'gasometro'
+  zona          String
+  etiqueta      String
+  activo        Boolean     @default(true)
+  lecturas      Lectura[]
+
+  @@unique([biodigestorId, variable])
+  @@map("sensores")
+}
+
+model Lectura {
+  id        String   @id
+  sensorId  String
+  sensor    Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  variable  String
+  zona      String
+  valor     Float
+  /// Estado calculado por el dominio al registrar: 'normal' | 'alerta' | 'critico'
+  estado    String
+  timestamp DateTime
+
+  // Índice compuesto: el histórico siempre filtra por variable y ordena por tiempo.
+  @@index([variable, timestamp])
+  @@index([sensorId, timestamp])
+  @@map("lecturas")
+}
+
+model Alerta {
+  id         String   @id
+  variable   String
+  zona       String
+  valor      Float
+  severidad  String
+  mensaje    String
+  timestamp  DateTime
+  reconocida Boolean  @default(false)
+
+  @@index([timestamp])
+  @@index([variable, timestamp])
+  @@map("alertas")
+}
+
+model Generador {
+  id           String           @id
+  nombre       String
+  tipo         String
+  direccion    String?
+  contacto     String?
+  activo       Boolean          @default(true)
+  creadoEn     DateTime         @default(now())
+  entregas     EntregaResiduo[]
+
+  @@map("generadores")
+}
+
+model EntregaResiduo {
+  id            String    @id
+  generadorId   String
+  // Restrict: no se borra un generador que ya aportó residuo — se desactiva.
+  generador     Generador @relation(fields: [generadorId], references: [id], onDelete: Restrict)
+  cantidadKg    Float
+  fecha         DateTime
+  /// 'manual' hoy; 'bascula' cuando se integre el pesaje automático
+  origen        String    @default("manual")
+  observaciones String?
+
+  @@index([fecha])
+  @@index([generadorId, fecha])
+  @@map("entregas_residuo")
+}

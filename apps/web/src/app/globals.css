@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Tokens de color como canales RGB sueltos, no como hex.
+ *
+ * Tailwind los compone con `rgb(var(--c-x) / <alpha-value>)`, que es lo que
+ * permite seguir usando modificadores de opacidad (bg-fondo/80, border-borde/60)
+ * después de haber pasado todo a variables para el cambio de tema.
+ */
+:root,
+:root[data-tema='claro'] {
+  color-scheme: light;
+
+  --c-fondo: 251 251 248;
+  --c-superficie: 255 255 255;
+  --c-superficie-alta: 243 245 238;
+  --c-borde: 223 226 216;
+
+  /* Acento legible sobre claro (oliva). El lima de marca no llega a 3:1 sobre blanco. */
+  --c-acento: 95 125 10;
+  --c-acento-suave: 122 148 16;
+  --c-acento-oscuro: 74 98 8;
+  /* El lima de marca, reservado para rellenos donde el texto va encima en oscuro. */
+  --c-acento-marca: 212 248 74;
+
+  --c-texto: 20 24 15;
+  --c-texto-tenue: 90 99 83;
+  --c-texto-debil: 139 147 130;
+
+  --c-estado-normal: 23 146 79;
+  --c-estado-alerta: 208 122 22;
+  --c-estado-critico: 163 24 47;
+}
+
+:root[data-tema='oscuro'] {
+  color-scheme: dark;
+
+  --c-fondo: 10 12 8;
+  --c-superficie: 16 20 16;
+  --c-superficie-alta: 23 28 21;
+  --c-borde: 36 43 33;
+
+  --c-acento: 212 248 74;
+  --c-acento-suave: 228 251 140;
+  --c-acento-oscuro: 168 201 59;
+  --c-acento-marca: 212 248 74;
+
+  --c-texto: 232 237 228;
+  --c-texto-tenue: 154 165 149;
+  --c-texto-debil: 94 106 90;
+
+  --c-estado-normal: 74 222 128;
+  --c-estado-alerta: 232 132 42;
+  --c-estado-critico: 227 52 78;
+}
+
+:root {
+  --font-sans: 'Space Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-fondo text-texto antialiased;
+    font-family: var(--font-sans);
+    /* El tema se aplica al instante al cambiar, sin arrastrar el resto de la UI. */
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+
+  ::selection {
+    @apply bg-acento-marca text-fondo;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-fondo;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-borde rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-acento-oscuro;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-acento ring-offset-2 ring-offset-fondo;
+  }
+}
+
+@layer components {
+  .contenedor-renova {
+    @apply mx-auto w-full max-w-6xl px-6;
+  }
+
+  .tarjeta {
+    @apply rounded-xl border border-borde bg-superficie p-5;
+  }
+
+  .etiqueta-seccion {
+    @apply font-mono text-xs uppercase tracking-[0.2em] text-acento;
+  }
+
+  /* El botón usa el lima de marca en ambos temas: la tinta va encima, siempre oscura. */
+  .boton-primario {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-acento-marca px-6 py-3
+           font-semibold text-[#0A0C08] transition-transform hover:scale-[1.03] active:scale-100;
+  }
+
+  .boton-secundario {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-borde
+           px-6 py-3 font-medium text-texto transition-colors hover:border-acento hover:text-acento;
+  }
+
+  .campo {
+    @apply w-full rounded-lg border border-borde bg-superficie-alta px-3 py-2 text-sm
+           text-texto outline-none transition-colors placeholder:text-texto-debil
+           focus:border-acento;
+  }
+}
+
+/* Respeta a quien pidió menos animación: la landing es intensa en movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

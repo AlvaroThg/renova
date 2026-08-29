@@ -1,0 +1,43 @@
+# Exported by three-d-stage
+newmtl relleno_negro
+Kd 0.0000 0.0000 0.0000
+Ks 0.2000 0.2000 0.2000
+Ns 100
+d 1.0000
+
+newmtl concreto
+Kd 0.1590 0.2747 0.0176
+Ks 0.2000 0.2000 0.2000
+Ns 0
+d 1.0000
+
+newmtl geomembrana
+Kd 0.5776 0.9131 0.0545
+Ks 0.2000 0.2000 0.2000
+Ns 0
+d 1.0000
+
+newmtl acero
+Kd 0.5776 0.9131 0.0545
+Ks 0.2000 0.2000 0.2000
+Ns 0
+d 1.0000
+
+newmtl tuberia
+Kd 0.7605 1.0000 0.1946
+Ks 0.2000 0.2000 0.2000
+Ns 0
+d 1.0000
+
+newmtl sensor
+Kd 0.7605 1.0000 0.1946
+Ks 0.2000 0.2000 0.2000
+Ns 0
+d 1.0000
+
+newmtl estructura
+Kd 0.1590 0.2747 0.0176
+Ks 0.2000 0.2000 0.2000
+Ns 0
+d 1.0000
+

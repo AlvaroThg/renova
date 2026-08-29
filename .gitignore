@@ -1,0 +1,23 @@
+node_modules/
+dist/
+build/
+.next/
+out/
+
+.env
+.env.local
+.env.*.local
+!.env.example
+
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+.DS_Store
+Thumbs.db
+
+coverage/
+*.tsbuildinfo
+
+# Los modelos 3D sí se versionan: los .glb de public/models son parte del
+# producto y los .obj/.mtl de assets/models-source son la fuente editable.

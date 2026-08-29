@@ -1,0 +1,19 @@
+# Exported by three-d-stage
+newmtl acero_oscuro
+Kd 0.0021 0.0030 0.0015
+Ks 0.2000 0.2000 0.2000
+Ns 20
+d 1.0000
+
+newmtl membrana
+Kd 0.0030 0.0044 0.0018
+Ks 0.2000 0.2000 0.2000
+Ns 30
+d 0.9200
+
+newmtl gas
+Kd 0.6584 0.9387 0.0685
+Ks 0.2000 0.2000 0.2000
+Ns 0
+d 0.0700
+

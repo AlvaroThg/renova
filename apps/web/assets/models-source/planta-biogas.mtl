@@ -1,0 +1,19 @@
+# Exported by three-d-stage
+newmtl relleno_oscuro
+Kd 0.0037 0.0052 0.0024
+Ks 0.2000 0.2000 0.2000
+Ns 10
+d 1.0000
+
+newmtl relleno_translucido
+Kd 0.0037 0.0052 0.0024
+Ks 0.2000 0.2000 0.2000
+Ns 10
+d 0.4000
+
+newmtl lima_solido
+Kd 0.6584 0.9387 0.0685
+Ks 0.2000 0.2000 0.2000
+Ns 120
+d 1.0000
+
